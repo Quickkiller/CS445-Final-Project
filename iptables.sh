@@ -4,8 +4,9 @@ iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 #Places nmap scanning packets into honeypot
 #Last IP address should be the honeypot IP, currently just a placeholder
-iptables -t nat -A PREROUTING -i eth1 -p tcp --tcp-flags ALL FIN -j DNAT --to-destination 192.168.4.0
-iptables -t nat -A PREROUTING -i eth1 -p tcp --tcp-flags ALL NONE -j DNAT --to-destination 192.168.4.0
+iptables -t nat -A PREROUTING -i eth1 -p tcp --tcp-flags ALL FIN -j DNAT --to-destination 192.168.8.100
+iptables -t nat -A PREROUTING -i eth1 -p tcp --tcp-flags ALL SYN -j DNAT --to-destination 192.168.8.100
+iptables -t nat -A PREROUTING -i eth1 -p tcp --tcp-flags ALL NONE -j DNAT --to-destination 192.168.8.100
 iptables -t nat -A PREROUTING -i eth1 -p tcp --tcp-flags ALL FIN,PSH,URG -j DNAT --to-destination 192.168.4.0
 
 #allows internal communication with loopback
