@@ -23,7 +23,7 @@ sudo iptables -A INPUT -p icmp --icmp-type echo-request -m limit --limit 3/min -
 #Accepts port 22 with some limitations
 sudo iptables -A INPUT -p tcp -dport 22 -m state --state NEW -j ATTACK
 sudo iptables -A ATTACK -m recent --set --name ATTACKER
-sudo iptables -A ATTACK --update --seconds 60 
+sudo iptables -A ATTACK -m state --state NEW -m recent --update --seconds 60 --hitcount 3 -j DROP
 
 # Make make default drop
-sudo iptables -A INPUT -j DROP
+sudo iptables -A INPUT -j ACCEPT
