@@ -3,6 +3,7 @@
 honeypot="192.168.8.100"
 limitBurst=10
 #Accepts packets from users with an already established connection
+sudo iptables -N ATTACK
 sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 #Places nmap scanning packets into honeypot
@@ -19,8 +20,10 @@ sudo iptables -A OUTPUT -o lo -j ACCEPT
 #Limits ICMP pings
 sudo iptables -A INPUT -p icmp --icmp-type echo-request -m limit --limit 3/min --limit-burst "$limitBurst" -j ACCEPT
 
-#accept to port 22, 80, and 443 (Common ports to ACCEPT) (Not sure if these rules are necessary for the purposes of the project)
-#iptables -A INPUT -p tcp -m multiport --dports 22,80,443 -j ACCEPT
+#Accepts port 22 with some limitations
+sudo iptables -A INPUT -p tcp -dport 22 -m state --state NEW -j ATTACK
+sudo iptables -A ATTACK -m recent --set --name ATTACKER
+sudo iptables -A ATTACK --update --seconds 60 
 
 # Make make default drop
-sudo iptables -P INPUT -j DROP
+sudo iptables -A INPUT -j DROP
