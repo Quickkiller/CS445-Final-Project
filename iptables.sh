@@ -38,6 +38,7 @@ sudo iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --
 sudo iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --update --seconds 60 --hitcount 3 --name SSH -j DROP
 
 # DMZ isolation
+sudo iptables -A FORWARD -i $ext_if -d $dmz_net -j ACCEPT
 sudo iptables -A FORWARD -s $internal_net -d $dmz_net -j ACCEPT
 sudo iptables -A FORWARD -s $dmz_net -d $internal_net -j DROP
 
