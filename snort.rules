@@ -4,3 +4,5 @@ alert tcp any any -> 192.168.4.0/24 any (msg:"TCP FIN SCAN"; sid:1000000; flags:
 alert tcp any any -> 192.168.4.0/24 any (msg:"TCP SYN SCAN"; sid:1000001; flags:S; detection_filter:track by_src, count 20, seconds 10;)
 alert tcp any any -> 192.168.4.0/24 any (msg:"TCP NULL SCAN"; sid:1000002; flags:0;)
 alert tcp any any -> 192.168.4.0/24 any (msg:"TCP XMAS SCAN"; sid:1000003; flags:FPU;)
+alert tcp any any -> <my machine> 22 (msg:"TCP Flodo Attemp"; content:"SSH";nocase; offset:0; depth:4; detection_filter:track by_src, count 30, seconds 60;
+sid:1000004; rev:1;)
