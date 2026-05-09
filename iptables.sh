@@ -36,4 +36,4 @@ iptables -A INPUT -p tcp -m recent --name SCAN --set
 iptables -A INPUT -p tcp -m recent --update --seconds 60 --hitcount 5 --name SCAN -j DROP
 
 # Make make default drop
-sudo iptables -A INPUT -j ACCEPT
+sudo iptables -A INPUT -j DROP
