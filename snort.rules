@@ -4,9 +4,6 @@ alert tcp any any -> 192.168.4.0/24 any (msg:"TCP FIN SCAN"; sid:1000000; flags:
 alert tcp any any -> 192.168.4.0/24 any (msg:"TCP SYN SCAN"; sid:1000001; flags:S; detection_filter:track by_src, count 20, seconds 10;)
 alert tcp any any -> 192.168.4.0/24 any (msg:"TCP NULL SCAN"; sid:1000002; flags:0;)
 alert tcp any any -> 192.168.4.0/24 any (msg:"TCP XMAS SCAN"; sid:1000003; flags:FPU;)
-alert tcp any any -> 192.168.4.0/24 any (msg:"TCP Flood Attemp"; content:"SSH";nocase; offset:0; depth:4; detection_filter:track by_src, count 30, seconds 60;
-sid:1000004; rev:1;)
-alert upd any any -> 192.168.4.0/24 any (msg:"UDP Flood Attemp"; detection_filter:track by_src, count 30, seconds 60;
-sid:1000004; rev:1;)
-alert icmp any any -> 192.168.4.0/24 any (msg:"ICMP Flood Attemp"; detection_filter:track by_src, count 30, seconds 60;
-sid:1000004; rev:1;)
+alert tcp any any -> 192.168.4.0/24 22 (msg:"SSH Brute Force Attempt"; detection_filter:track by_src, count 10, seconds 30; sid:1000004; rev:1;)
+alert udp any any -> 192.168.4.0/24 any (msg:"UDP Flood Attempt"; detection_filter:track by_src, count 30, seconds 10; sid:1000005; rev:1;)
+alert icmp any any -> 192.168.4.0/24 any (msg:"ICMP Flood Attempt"; detection_filter:track by_src, count 20, seconds 5; sid:1000006; rev:1;)
